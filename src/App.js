@@ -26,7 +26,7 @@ class App extends Component {
         new Field('Date of Warrant/Violation', 'dow', false, true, false, 'date', 8, 8),
         new Field('Drivers License', 'oln', true, true, true, null, 1, 20),
         new Field('DL State', 'ols', true, false, false, 'state', 2, 2),
-        new Field('DL Expiration Date', 'oly', false, true, false, 'date', 8, 8),
+        new Field('DL Expiration Year', 'oly', false, true, false, 'year', 4, 4),
         new Field('License Plate', 'lic', true, true, false, null, 5, 8),
         new Field('License State', 'lis', true, false, false, 'state', 2, 2),
         new Field('License Year', 'liy', false, true, false, 'year', 4, 4)
