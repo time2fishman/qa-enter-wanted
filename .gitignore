@@ -11,6 +11,7 @@
 /tests_output
 selenium-debug.log
 nightwatchProps.js
+nightwatch.conf.js
 
 # misc
 .DS_Store
