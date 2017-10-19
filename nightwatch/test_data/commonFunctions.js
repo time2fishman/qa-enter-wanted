@@ -1,3 +1,26 @@
+const selectors = require('./css_selectors')
+
+const test = (valid, transaction, browser) => {
+    //send the fields & data to input
+    inputSet(selectors.fields, transaction.fields, browser)
+    browser
+        //submit
+        .click(selectors.buttons.submit)
+        .pause(100)
+        //expect header to be right
+        .expect.element(selectors.messages.header).text.to.equal(transaction.results.header)
+    //expect error list to be empty
+    if (valid)
+        browser.expect.element(selectors.messages.errorList).text.to.equal('')
+    else
+        messagesCheck(selectors.messages.errorList, transaction.results.errorList, browser)
+
+    //expect query title to be right
+    browser.expect.element(selectors.messages.queryTitle).text.to.equal(transaction.results.queryTitle)
+    //expect assembled query to be right
+    browser.expect.element(selectors.messages.assembledQuery).text.to.equal(transaction.results.assembledQuery)
+}
+
 const input = (selector, value, browser) => {
     browser
         .clearValue(selector)
@@ -25,6 +48,10 @@ const messagesCheck = (messageField, message_set, browser) => {
 }
 
 module.exports = {
+    //a function accepting arguments to run the tests
+    //valid - whether the test should be a valid message
+    //transaction - the transaction to test
+    test: test,
     //a function to input values into an input text field
     //and check that the value input is accurate before
     //returning
