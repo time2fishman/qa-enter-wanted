@@ -20,7 +20,7 @@ class App extends Component {
         new Field('Sex', 'sex', true, false, false, 'sex', 1, 1),
         new Field('Race', 'rac', true, false, false, null, 1, 1),
         new Field('Height', 'hgt', false, true, false, null, 3, 3),
-        new Field('Weight', 'wgt', false, true, false, null, 3, 3),
+        new Field('Weight', 'wgt', false, true, false, null, 2, 3),
         new Field('Hair', 'hai', true, false, false, null, 3, 10), 
         new Field('Offense', 'off', true, true, true, null, 5, 15),
         new Field('Date of Warrant/Violation', 'dow', false, true, false, 'date', 8, 8),

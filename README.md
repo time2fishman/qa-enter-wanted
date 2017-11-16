@@ -2,7 +2,7 @@
 
 # AJ's Enter Wanted Test
 
-This project is to create a web form that will generate the text to submit to the NCIC to add a warrant.
+This protect is to create a web form that will generate the text to submit to the NCIC to add a warrant.
 
 It is assumed that if incorrect entry occurs, the proper error message will be displayed to assist the user in correcting their mistakes.
 
@@ -37,9 +37,9 @@ special: these are any characters other than numbers and letters, including blan
 Upon successful entry, a text blob will be created, which consists of each of the values entered, separated by a '.' - any optional fields left blank will still be denoted in the blob by an additional '.'
 
 ## Project Instructions
-This morning's stretch activity is a de-bugging treasure hunt!
+Assume that it has been a few weeks since the bugs we found yesterday were reported.  Those have been reported as fixed, as well as several other issues uncovered by your development team through the process of debugging, corresponding updates have been made to the documentation.
 
-Your instructions are located in the JIRA task, EW-77
+* Note: Since changes were made to the docs, you may need to update or create one or more tests.
 
 ## Contributions
 

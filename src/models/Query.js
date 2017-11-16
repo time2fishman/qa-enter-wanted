@@ -101,6 +101,9 @@ export default class Query {
     })
     if (this.valid) {
       Object.entries(this.fields).forEach(([key, value]) => {
+        if(key==='wgt'){
+          value = '0' + value;//actually adds a leading zero regardless of weight field length
+        }
         this.assembledQuery += value + '.'
       })
       this.assembledQuery = this.assembledQuery.slice(0, -1)
