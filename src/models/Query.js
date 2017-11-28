@@ -18,8 +18,7 @@ export default class Query {
       oly: '',
       lic: '',
       lis: '',
-      liy: '',
-
+      liy: ''
     }
 
     //all the mandatory fields per the requirements
@@ -102,11 +101,23 @@ export default class Query {
     if (this.valid) {
       Object.entries(this.fields).forEach(([key, value]) => {
         if(key==='wgt'){
-          value = '0' + value;//actually adds a leading zero regardless of weight field length
+          while (value.length<3) {
+            value = '0' + value; //will increase length with preceding zeroes until the value is 3 characters long
+          }
         }
         this.assembledQuery += value + '.'
       })
       this.assembledQuery = this.assembledQuery.slice(0, -1)
+      console.log(this.assembledQuery)
+      console.log()
+      let fieldCount = Object.keys(this.fields).length
+      let extraPeriods = this.assembledQuery.split(".").length - fieldCount
+      if(extraPeriods === 0){
+        console.log('There are no extra periods (".") in the assembled text.')
+      }
+      else{
+        console.log('There are ' + extraPeriods  + ' extra periods (".") in the assembled text.')
+      }
     }
     return ({ valid: this.valid, errorMessages: errorMessages, assembledQuery: this.assembledQuery })
   }

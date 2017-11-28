@@ -87,7 +87,7 @@ class QueryEditor extends Component {
             :
             <p id="noQuery"> Error Loading Query </p>
         }
-        <a id="versionNumber"> Version 1.6 </a>
+        <a id="versionNumber"> Version 1.8 </a>
 
       </div>
     )

@@ -14,7 +14,7 @@ alpha: any alphabetical characters, upper or lower case
 
 numeric: numbers only, 0-9
 
-special: these are any characters other than numbers and letters, including blank spaces ' '
+special: these are any characters other than numbers and letters, including blank spaces ' ' - Periods '.' should not be allowed, as it will break message parsing.
 
 * Header: Required, 9-19 characters in length, any allowed
 * MKE: Required, 2-4 alpha/special characters in length
@@ -23,7 +23,7 @@ special: these are any characters other than numbers and letters, including blan
 * Sex: Required, 1 character in length, alphabet only, F (female) M (male) and U (unknown) are the only accepted entries
 * Race: Required, 1 character in length, alphabet only
 * Height: Required, 3 characters in length, numeric only in FII format, where F is feet and I is inches
-* Weight: Required, 3 characters in length, numeric only in lbs, use leading zero if necessary
+* Weight: Required, 1-3 characters in length, numeric only in lbs, leading zeros to be entered systematically as necessary to change the length to 3 characters in the assembled query.
 * Hair: Required, 3-10 characters in length, alpha only
 * Offense: Required, 5-15 characters in length, any allowed
 * Date of Warrant/Violation: Required, 8 characters in length, numeric in MMDDYYYY format (allows dates from 1900 to today +1 day, to account for time zone differences)
@@ -34,7 +34,7 @@ special: these are any characters other than numbers and letters, including blan
 * License State: Optional, 2 characters in length, State Abbreviations only, if included requires License Plate and License Year
 * License Year: Optional, 4 characters in length, numeric in YYYY format, if included requires License Plate and License Year
 
-Upon successful entry, a text blob will be created, which consists of each of the values entered, separated by a '.' - any optional fields left blank will still be denoted in the blob by an additional '.'
+Upon successful entry, a text message will be created, which consists of each of the values entered, separated by a '.' - any optional fields left blank will still be denoted in the message by an additional '.'
 
 ## Project Instructions
 Assume that it has been a few weeks since the bugs we found yesterday were reported.  Those have been reported as fixed, as well as several other issues uncovered by your development team through the process of debugging, corresponding updates have been made to the documentation.

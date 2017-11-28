@@ -113,8 +113,6 @@ export default class Field {
 
                 //further date checking to make sure the date is no later than tomorrow
                 if (this.custom === 'date' && valid) {
-                    if(this.code === 'oly')
-                        console.log('The DL Expiration should be a year, not a date...  Can you find where the fields are defined?')
                     let date = new Date()
                     let today = ''
                     today += date.getFullYear() //formatting date YYYYMMDD allows for direct >< comparison for earlier/later dates
