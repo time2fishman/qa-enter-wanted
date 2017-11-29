@@ -130,6 +130,7 @@ module.exports = {
             .pause(100)
         //now I'll check that all the expected results are correct
         browser.expect.element(selectors.messages.header).text.to.equal(data.badData.output.header)
+        //this transaction only has one error message to check, so I don't need to repeat the check
         browser.expect.element(selectors.messages.errorList).text.to.contain(data.badData.output.errorList.oln)
         browser.expect.element(selectors.messages.queryTitle).text.to.equal(data.badData.output.queryTitle)
         browser.expect.element(selectors.messages.assembledQuery).text.to.equal(data.badData.output.assembledQuery)
