@@ -46,6 +46,10 @@ Upon successful entry, a text message will be created, which consists of each of
 
 ## Automation
 
+<details>
+
+<summary> 2.3-afternoon </summary>
+
 It's time to get started on automation!  You've seen a little bit of NightwatchJS in action, docs are available [here](http://nightwatchjs.org/api "NightwatchJS API Docs").
 
 ## Step 1
@@ -685,6 +689,8 @@ Once you get to where you are confident you can reproduce the single good data t
 ### Black Diamond Challenge
 
 Write up a helper function that will simplify data input...
+
+</details>
 
 ## Contributions
 
