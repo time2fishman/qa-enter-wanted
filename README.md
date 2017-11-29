@@ -50,6 +50,8 @@ Upon successful entry, a text message will be created, which consists of each of
 
 <summary> 2.3-afternoon </summary>
 
+<br />
+
 It's time to get started on automation!  You've seen a little bit of NightwatchJS in action, docs are available [here](http://nightwatchjs.org/api "NightwatchJS API Docs").
 
 ## Step 1
@@ -365,6 +367,7 @@ For clarity's sake, especially in a test environment like this one that has all 
 
 <br />
 
+```js
 module.exports = {
     goodData: {
         input: {
@@ -424,6 +427,7 @@ module.exports = {
         }
     }
 }
+```
 
 </details>
 
@@ -689,6 +693,239 @@ Once you get to where you are confident you can reproduce the single good data t
 ### Black Diamond Challenge
 
 Write up a helper function that will simplify data input...
+
+</details>
+
+<details>
+
+<summary> 2.4-stretch </summary>
+
+<br />
+
+## Step 1
+
+### Summary
+This morning we're going to introduce the idea of a helper function.  We know that functions redo the same thing over and over and over, every time they're called.  There's something in our code that we have done, OVER and OVER again.  Even in just the two basic steps.
+
+Every time we've input data in the fields, we clear the value, set the value, and then verify the value.
+
+```js
+browser
+    .clearValue(selectors.fields.hdr)
+    .setValue(selectors.fields.hdr, data.goodData.input.hdr)
+    .verify.value(selectors.fields.hdr, data.goodData.input.hdr)
+```
+
+We can encapsulate this in a separate function, and even make the function available to any tests in our test framework.
+
+### Instructions
+
+* In your `test_data` folder, we'll create a new file, `test_functions.js`.
+* Export an object from this file.
+* Add a function named `enterValue` as a property of the exported object.
+* This function will take parameters of `selector`, `input` and `browser`.
+* It will use these arguments to do the three operations listed in the summary - `.clearValue()`, `.setValue()` and `.verify.value()`
+
+<details>
+
+<summary> Detailed Instructions </summary>
+
+<br />
+
+We'll create the new file in our `test_data` folder called `test_functions.js`, and export an anonymous object, with the property `enterValue()`.
+
+```js
+module.exports = {
+    enterValue : () => {
+        
+    }
+}
+```
+
+This function will have three parameters as mentioned, `selector`, `input`, and `browser`.  The `selector` will be the selector for the field where we are inputting data.  The `input` will be the text to input into the field, and the `browser` is the same browser object we use in our nightwatch tests, so that our function can use it too.
+
+```js
+    enterValue : (selector, input, browser) => {
+```
+
+Now we can call the functions that we don't want to have to type over and over again.  `clearValue()`, `setValue()`, and the `verify.value()`.  These are still good to use every time we set a field's value, as it will make sure no extra data is remaining from potential previous use, and will make sure that the field accepts the information we input.
+
+```js
+enterValue : (selector, input, browser) => {
+    browser
+        .clearValue(selector)
+        .setValue(selector, input)
+        .verify.value(selector, input)
+}
+```
+
+Now we can refactor our test to use this, and it will make writing future tests much easier.
+
+</details>
+
+### Solution
+
+<details>
+
+<summary> <code> test_functions.js </code> </summary>
+
+<br />
+
+```js
+module.exports = {
+    enterValue : (selector, input, browser) => {
+        browser
+            .clearValue(selector)
+            .setValue(selector, input)
+            .verify.value(selector, input)
+    }
+}
+```
+
+</details>
+
+## Step 2
+
+### Summary
+Now we can refactor our original tests to use our new function.
+
+### Instructions
+* First we need to require our new test_functions export in our `test.js` file.
+* Next, we can replace each instance of the `clearValue()` + `setValue()` + `verify.value()` with our `enterValue()` function.
+* Run your tests to make sure they were refactored successfully.
+
+<details>
+
+<summary> Detailed Instructions </summary>
+
+<br />
+
+In our `test.js` file we need to create a constant and require the export from the `test_functions.js` file.  We'll name the constant `functions`.
+
+```js
+const functions = require('../test_data/test_functions')
+```
+
+Then we'll start to *refactor* our test.  Refactoring is when you are taking a working system and changing it to fit a different set of requirements or different procedures, for the same anticipated result.
+
+To do this, you can take any instance of:
+
+```js
+.clearValue(selectors.fields.hdr)
+.setValue(selectors.fields.hdr, data.goodData.input.hdr)
+.verify.value(selectors.fields.hdr, data.goodData.input.hdr)
+```
+
+And replace it with:
+
+```js
+functions.enterValue(selectors.fields.hdr, data.goodData.input.hdr, browser)
+```
+
+Change the field names if you aren't using the `hdr`, like `mke`, `oai`, etc.
+
+</details>
+
+### Solution
+
+<details>
+
+<summary> <code> test.js </code> </summary>
+
+<br />
+
+```js
+const selectors = require('../test_data/css_selectors')
+const data = require('../test_data/test_data')
+const functions = require('../test_data/test_functions')
+
+module.exports = {
+    beforeEach: browser => {
+        browser.url('http://localhost:3000')
+    },
+    after: browser => {
+        browser.end()
+    },
+    'I can put in information and get a good text message as a result': browser => {
+
+        //Set ALL the fields (even if I'm setting it to blank, this'll make sure they don't have any info in them)
+        functions.enterValue(selectors.fields.hdr, data.goodData.input.hdr, browser)
+        functions.enterValue(selectors.fields.mke, data.goodData.input.mke, browser)
+        functions.enterValue(selectors.fields.oai, data.goodData.input.oai, browser)
+        functions.enterValue(selectors.fields.nam, data.goodData.input.nam, browser)
+        functions.enterValue(selectors.fields.sex, data.goodData.input.sex, browser)
+        functions.enterValue(selectors.fields.rac, data.goodData.input.rac, browser)
+        functions.enterValue(selectors.fields.hgt, data.goodData.input.hgt, browser)
+        functions.enterValue(selectors.fields.wgt, data.goodData.input.wgt, browser)
+        functions.enterValue(selectors.fields.hai, data.goodData.input.hai, browser)
+        functions.enterValue(selectors.fields.off, data.goodData.input.off, browser)
+        functions.enterValue(selectors.fields.dow, data.goodData.input.dow, browser)
+        functions.enterValue(selectors.fields.oln, data.goodData.input.oln, browser)
+        functions.enterValue(selectors.fields.ols, data.goodData.input.ols, browser)
+        functions.enterValue(selectors.fields.oly, data.goodData.input.oly, browser)
+        functions.enterValue(selectors.fields.lic, data.goodData.input.lic, browser)
+        functions.enterValue(selectors.fields.lis, data.goodData.input.lis, browser)
+        functions.enterValue(selectors.fields.liy, data.goodData.input.liy, browser)
+        //I've set all the fields, time to submit
+        browser
+            .click(selectors.buttons.submit)
+            .pause(100)
+        //now I'll check that all the expected results are correct
+        browser.expect.element(selectors.messages.header).text.to.equal(data.goodData.output.header)
+        browser.expect.element(selectors.messages.errorList).text.to.equal('')
+        browser.expect.element(selectors.messages.queryTitle).text.to.equal(data.goodData.output.queryTitle)
+        browser.expect.element(selectors.messages.assembledQuery).text.to.equal(data.goodData.output.assembledQuery)
+    },
+    'If I put in good data, but only one of a set of optional fields, I get an error': browser => {
+        //Set ALL the fields (even if I'm setting it to blank, this'll make sure they don't have any info in them)
+        functions.enterValue(selectors.fields.hdr, data.badData.input.hdr, browser)
+        functions.enterValue(selectors.fields.mke, data.badData.input.mke, browser)
+        functions.enterValue(selectors.fields.oai, data.badData.input.oai, browser)
+        functions.enterValue(selectors.fields.nam, data.badData.input.nam, browser)
+        functions.enterValue(selectors.fields.sex, data.badData.input.sex, browser)
+        functions.enterValue(selectors.fields.rac, data.badData.input.rac, browser)
+        functions.enterValue(selectors.fields.hgt, data.badData.input.hgt, browser)
+        functions.enterValue(selectors.fields.wgt, data.badData.input.wgt, browser)
+        functions.enterValue(selectors.fields.hai, data.badData.input.hai, browser)
+        functions.enterValue(selectors.fields.off, data.badData.input.off, browser)
+        functions.enterValue(selectors.fields.dow, data.badData.input.dow, browser)
+        functions.enterValue(selectors.fields.oln, data.badData.input.oln, browser)
+        functions.enterValue(selectors.fields.ols, data.badData.input.ols, browser)
+        functions.enterValue(selectors.fields.oly, data.badData.input.oly, browser)
+        functions.enterValue(selectors.fields.lic, data.badData.input.lic, browser)
+        functions.enterValue(selectors.fields.lis, data.badData.input.lis, browser)
+        functions.enterValue(selectors.fields.liy, data.badData.input.liy, browser)
+        //I've set all the fields, time to submit
+        browser
+            .click(selectors.buttons.submit)
+            .pause(100)
+        //now I'll check that all the expected results are correct
+        browser.expect.element(selectors.messages.header).text.to.equal(data.badData.output.header)
+        //this transaction only has one error message to check, so I don't need to repeat the check
+        browser.expect.element(selectors.messages.errorList).text.to.contain(data.badData.output.errorList.oln)
+        browser.expect.element(selectors.messages.queryTitle).text.to.equal(data.badData.output.queryTitle)
+        browser.expect.element(selectors.messages.assembledQuery).text.to.equal(data.badData.output.assembledQuery)
+    }
+}
+```
+
+</details>
+
+Congrats!  You just made it a lot easier to write more tests!
+
+## Step 3
+
+There are all sorts of things you can do to make your life easier with writing these tests.  You can write a function that you pass all of the fields and all of the inputs as two arguments - and it'll fill all your fields at once for you, or even a function that will run good data tests.
+
+```js
+functions.enterValues(selectors.fields, data.goodData.input, browser)
+```
+
+```js
+functions.goodDataCheck(selectors, data.goodData, browser)
+```
+
+You can do all sorts of things.  Think it over, if one occurrs to you, give it a shot!
 
 </details>
 
